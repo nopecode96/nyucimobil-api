@@ -127,7 +127,7 @@ exports.loginOtpVerify = async (req, res) => {
             res.status(200).send({
                 code: 200,
                 success: true,
-                message: 'Registrasi Berhasil!',
+                message: 'Login Berhasil!',
                 data: dataUser[0]
             });
             return;            
