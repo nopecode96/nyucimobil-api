@@ -70,8 +70,8 @@ exports.loginOtpVerify = async (req, res) => {
                 code: 200,
                 success: false,
                 message: 'Kode OTP Anda Salah atau expired, silahkan ulangi kembali.',
+                status: 0,
                 data: {
-                    status: 0,
                     token: ''
                 }
             });
@@ -87,8 +87,8 @@ exports.loginOtpVerify = async (req, res) => {
                     code: 200,
                     success: false,
                     message: 'Nomor Anda belum terdaftar.',
+                    status: 1,
                     data: {
-                        status: 1,
                         token: ''
                     }
                     
@@ -108,6 +108,7 @@ exports.loginOtpVerify = async (req, res) => {
                     code: 200,
                     success: false,
                     message: 'jwtSecretKey tidak valid',
+                    status: 0,
                     data: {
                         token: ''
                     }
@@ -128,6 +129,7 @@ exports.loginOtpVerify = async (req, res) => {
                 code: 200,
                 success: true,
                 message: 'Login Berhasil!',
+                status: 2,
                 data: dataUser[0]
             });
             return;            
@@ -138,6 +140,7 @@ exports.loginOtpVerify = async (req, res) => {
             code: 400,
             success: false,
             message: err.message,
+            status: 0,
             data: {
                 token: ''
             }
