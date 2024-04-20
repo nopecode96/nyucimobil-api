@@ -74,7 +74,7 @@ exports.loginOtpVerify = async (req, res) => {
         const otpFind = await db.otp.findAll({
             where: { 
                 phone: phone, 
-                // otp: otp,
+                otp: otp,
                 createdAt: { [sequelize.Op.gte]: sequelize.literal("NOW() - (INTERVAL '840 SECOND')")}
             },
         });
