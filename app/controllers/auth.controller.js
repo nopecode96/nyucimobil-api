@@ -85,7 +85,7 @@ exports.loginOtpVerify = async (req, res) => {
             if(userFind.length < 1){
                 res.status(200).send({
                     code: 200,
-                    success: false,
+                    success: true,
                     message: 'Nomor Anda belum terdaftar.',
                     status: 1,
                     data: {
