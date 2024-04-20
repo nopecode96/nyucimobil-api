@@ -11,6 +11,7 @@ const axios = require("axios");
 dotenv.config();
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 let jwtSecretKey = process.env.JWT_SECRET_KEY;
+const qs = require('qs');
 
 
 exports.loginAccess = async (req, res) => {
@@ -22,14 +23,27 @@ exports.loginOTP = async (req, res) => {
     const otp = randomstring.generate({length: 4,charset: 'numeric'});
 
     var config = {
-        method: 'get',
-        url: 'https://api.callmebot.com/whatsapp.php?phone=+'+ phone +'&text='+otp+'+is+your+NyuciMobil+OTP&apikey='+process.env.CHATBOTAPI,
-        headers: { 'Content-Type': 'application/json' },
-        // data: data
+        method: 'POST',
+        // url: 'https://api.callmebot.com/whatsapp.php?phone=+'+ phone +'&text='+otp+'+is+your+NyuciMobil+OTP&apikey='+process.env.CHATBOTAPI,
+        url: process.env.FONNTE_URL,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': process.env.FONNTE_TOKEN },
+        data: qs.stringify({
+            'target': phone,
+            'message': otp + ' adalah kode OTP Anda untuk login pada Aplikasi CarKlin.id. Mohon untuk tidak membagikan kode OTP Anda kepada orang lain.'
+        })
     };
 
     try {
         const sendOtp = await axios(config);
+        console.log(sendOtp);
+        if(sendOtp['status'] === false) {
+            res.status(200).send({
+                code: 200,
+                success: false,
+                message: sendOtp['detail']
+            });
+            return;
+        }
         const otpSave = await db.otp.create({
             phone: phone.trim(),
             otp: otp
