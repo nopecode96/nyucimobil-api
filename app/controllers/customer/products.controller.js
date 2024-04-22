@@ -35,15 +35,13 @@ exports.productByCategory = async (req, res) => {
     try {
         const getDataProduct = await db.productCategory.findAll({
             where: {id: catID, published: true},
-            order: [
-                ['id', 'ASC'],
-            ],
             include: {
                 model: db.product,
-                order: [
-                    ['id', 'ASC'],
-                ],
-            }
+            },
+            order: [[
+                {model: db.product }, 
+                'id', 'ASC'
+            ]]    
         });
         res.status(200).send({
             code: 200,
