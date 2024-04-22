@@ -1,10 +1,16 @@
 const { where } = require("sequelize");
 const db = require("../../models/index.model");
+const { sortBy } = require("async");
 
 exports.category = async (req, res) => {
 
     try {
-        const getDataCategory = await db.productCategory.findAll({where: {published: true}});
+        const getDataCategory = await db.productCategory.findAll({
+            where: {published: true},
+            order: [
+                ['id', 'ASC'],
+            ],
+        });
         res.status(200).send({
             code: 200,
             success: true,
@@ -29,8 +35,14 @@ exports.productByCategory = async (req, res) => {
     try {
         const getDataProduct = await db.productCategory.findAll({
             where: {id: catID, published: true},
+            order: [
+                ['id', 'ASC'],
+            ],
             include: {
-                model: db.product
+                model: db.product,
+                order: [
+                    ['id', 'ASC'],
+                ],
             }
         });
         res.status(200).send({

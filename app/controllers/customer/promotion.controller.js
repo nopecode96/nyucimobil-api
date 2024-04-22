@@ -11,7 +11,10 @@ exports.promotion = async (req, res) => {
                 start_date: { [Op.lte]: datenow },
                 end_date: { [Op.gte]: datenow },
             }, 
-            attributes: ['id', 'title', 'image', 'start_date', 'end_date', 'usage', 'published']
+            attributes: ['id', 'title', 'image', 'start_date', 'end_date', 'usage', 'published'],
+            order: [
+                ['id', 'DESC'],
+            ],
         });
         res.status(200).send({
             code: 200,
