@@ -91,9 +91,10 @@ exports.loginOtpVerify = async (req, res) => {
             });
             return;
         } else {
-            console.log(phone.substring(1))
+            console.log('mulai')
+            console.log(phone)
             const userFind = await db.users.findAll({
-                where: { phone: phone.substring(1) }
+                where: { phone: phone }
             });
             console.log(userFind)
             if(userFind.length < 1){
@@ -193,9 +194,9 @@ exports.register = async (req, res) => {
         }
 
         const userFind = await db.users.findAll({
-            where: { phone: phone.substring(1) }
+            where: { phone: phone }
         });
-        // console.log(userFind.length)
+        console.log(userFind.length)
         if(userFind.length > 0){
             res.status(200).send({
                 code: 200,
@@ -209,7 +210,7 @@ exports.register = async (req, res) => {
         }
 
         const userSave = await db.users.create({
-            phone: phone.substring(1),
+            phone: phone,
             name: name,
             point_balance: initialPoint,
             fid_type: 1,
