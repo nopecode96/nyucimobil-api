@@ -212,6 +212,7 @@ exports.register = async (req, res) => {
         const userSave = await db.users.create({
             phone: phone,
             name: name,
+            gender: 'Pria',
             point_balance: initialPoint,
             fid_type: 1,
             fid_status: 1
