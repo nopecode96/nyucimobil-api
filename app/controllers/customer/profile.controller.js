@@ -150,7 +150,7 @@ exports.addresses = async (req, res) => {
 
 exports.addressSave = async (req, res) => {
     const uid = req.userid;
-    const { title, lat, lng, address, distric, city, province, def } = req.body;
+    const { title, lat, lng, jalan, kelurahan, kecamatan, kota, provinsi, negara, detail, def } = req.body;
 
     if(!lat || !lng){
         res.status(400).send({
@@ -169,7 +169,18 @@ exports.addressSave = async (req, res) => {
             const defaultReset = await db.userAddress.update(dataResetDefault, {where : { uid: uid }});
     
             const dataSave = {
-                title: title, lat: lat, lng: lng, address: address, distric: distric, city: city, province: province, default: 'true', uid: uid
+                title: title, 
+                lat: lat, 
+                lng: lng, 
+                jalan: jalan, 
+                kelurahan: kelurahan, 
+                kecamatan: kecamatan, 
+                kota: kota, 
+                provinsi: provinsi, 
+                negara: negara, 
+                detail: detail, 
+                default: 'true', 
+                uid: uid
             }
             const addressSave = await db.userAddress.create(dataSave);
             res.status(200).send({
