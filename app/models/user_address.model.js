@@ -4,13 +4,11 @@ module.exports = (sequelize, Sequelize) => {
         lat: Sequelize.STRING,
         lng: Sequelize.STRING,
         jalan: Sequelize.STRING,
-        kecamatan: Sequelize.STRING,
         kota: Sequelize.STRING,
         provinsi: Sequelize.STRING,
+        kodepos: Sequelize.STRING,
         default: Sequelize.BOOLEAN,
         alamat_map: Sequelize.TEXT,
-        negara: Sequelize.STRING,
-        kelurahan: Sequelize.STRING,
         detail: Sequelize.TEXT
     });
     return UserAddess;
