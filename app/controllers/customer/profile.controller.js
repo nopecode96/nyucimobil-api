@@ -150,7 +150,7 @@ exports.addresses = async (req, res) => {
 
 exports.addressSave = async (req, res) => {
     const uid = req.userid;
-    const { title, lat, lng, jalan, kelurahan, kecamatan, kota, provinsi, negara, detail, def } = req.body;
+    const { title, lat, lng, jalan, kelurahan, kecamatan, kota, provinsi, negara, detail, kodepos, alamat_map, def } = req.body;
 
     if(!lat || !lng){
         res.status(400).send({
@@ -182,6 +182,8 @@ exports.addressSave = async (req, res) => {
                 kota: kota, 
                 provinsi: provinsi, 
                 negara: negara, 
+                kodepos: kodepos, 
+                alamat_map: alamat_map, 
                 detail: detail, 
                 default: 'true', 
                 uid: uid
