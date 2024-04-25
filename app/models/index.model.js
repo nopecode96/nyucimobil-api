@@ -48,11 +48,20 @@ db.userPoint = require("./user_point_trx.model")(sequelize, Sequelize);
 db.productCategory = require("./product_category.model")(sequelize, Sequelize);
 db.product = require("./product.model")(sequelize, Sequelize);
 db.productGallery = require("./product_gallery.model")(sequelize, Sequelize);
+db.regDistrics = require("./reg_districts.model")(sequelize, Sequelize);
+db.regRegencies = require("./reg_regencies.model")(sequelize, Sequelize);
+db.regProvincies = require("./reg_provinces.model")(sequelize, Sequelize);
 
 
 //===============Associate================
 //===============Associate================
 //===============Associate================
+db.regProvincies.hasMany(db.regRegencies, { foreignKey: "province_id" });
+db.regRegencies.belongsTo(db.regProvincies, { foreignKey: "province_id" });
+db.regRegencies.hasMany(db.regDistrics, { foreignKey: "regency_id" });
+db.regDistrics.belongsTo(db.regRegencies, { foreignKey: "regency_id" });
+
+
 db.userType.hasMany(db.users, { foreignKey: "fid_type" });
 db.users.belongsTo(db.userType, { foreignKey: "fid_type", unique: false });
 db.userStatus.hasMany(db.users, { foreignKey: "fid_status" });

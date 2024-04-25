@@ -30,5 +30,7 @@ module.exports = app => {
     router.post("/car", auth.apiKeyValidation, auth.tokenValidation, controller.carSave);
     router.put("/car", auth.apiKeyValidation, auth.tokenValidation, controller.carUpdate);
     router.delete("/car", auth.apiKeyValidation, auth.tokenValidation, controller.carDelete);
+    router.get("/wilayah", auth.apiKeyValidation, auth.tokenValidation, controller.getWilayah);
+
     app.use('/' + process.env.VERSION + '/customer', router);
   };

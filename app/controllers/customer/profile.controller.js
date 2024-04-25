@@ -1,5 +1,8 @@
 const { where } = require("sequelize");
 const db = require("../../models/index.model");
+const Op = require('sequelize').Op;
+const sequelize = require('sequelize');
+
 
 exports.profileDetail = async (req, res) => {
     const uid = req.userid;
@@ -431,4 +434,56 @@ exports.carDelete = async (req, res) => {
         });
         return;
     }
+}
+
+//==========Address===========
+//==========Address===========
+//==========Address===========
+
+exports.getWilayah = async (req, res) => {
+    const uid = req.userid;
+    const { search } = req.query;
+    if(search){
+        const lookupValue = search.toLowerCase();
+        var condition = { name: sequelize.where(sequelize.fn('LOWER', sequelize.col('reg_districts.name')), 'LIKE', '%' + lookupValue + '%')  }
+    } else {
+        null
+    }
+    db.regDistrics.findAll({
+        where: condition,
+        attributes: ['id', 'name'],
+        include: {
+            model: db.regRegencies,
+            attributes: ['id', 'name'],
+            include: {
+                model: db.regProvincies,
+                attributes: ['id', 'name'],
+            }
+        }
+    }).then(data => {
+        if (data) {
+            res.send({
+                code: 200,
+                success: true,
+                message: "Data berhasil diambil",
+                data: data
+            });
+            return;
+        } else {
+            res.status(404).send({
+                code: 404,
+                success: false,
+                message: `Cannot find user with id=${id}.`
+            });
+            return;
+        }
+    }).catch(err => {
+        res.status(500).send({
+            code: 500,
+            success: false,
+            message: "Error retrieving user with id=" + id
+        });
+        return;
+    });
+
 }
