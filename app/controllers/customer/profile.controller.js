@@ -156,7 +156,11 @@ exports.addressSave = async (req, res) => {
         res.status(400).send({
             code: 400,
             success: false,
-            message:'Parameter lokasi salah'
+            message:'Parameter lokasi salah',
+            params: {
+                lat: lat,
+                lng: lng
+            }
         });
         return;
     }
