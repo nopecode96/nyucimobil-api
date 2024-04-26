@@ -8,7 +8,7 @@ exports.category = async (req, res) => {
         const getDataCategory = await db.productCategory.findAll({
             where: {published: true},
             order: [
-                ['id', 'ASC'],
+                [['id', 'ASC']],
             ],
         });
         res.status(200).send({

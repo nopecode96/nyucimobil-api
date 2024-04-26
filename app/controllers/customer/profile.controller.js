@@ -130,7 +130,8 @@ exports.addresses = async (req, res) => {
 
     try {
         const getDataAddress = await db.userAddress.findAll({
-            where : {uid: uid}
+            where : {uid: uid},
+            order: [['id', 'DESC']]
         })
 
         res.status(200).send({
