@@ -230,7 +230,7 @@ exports.addressSave = async (req, res) => {
 
 exports.addressUpdate = async (req, res) => {
     const uid = req.userid;
-    const { title, id, lat, lng, address, distric, city, province, def } = req.body;
+    const { title, lat, lng, jalan, kelurahan, kecamatan, kota, provinsi, negara, detail, kodepos, alamat_map, def,id } = req.body;
 
     if(!lat || !lng){
         res.status(400).send({
@@ -249,7 +249,7 @@ exports.addressUpdate = async (req, res) => {
             const defaultReset = await db.userAddress.update(dataResetDefault, {where : { uid: uid }});
 
             const dataUpdate = {
-                title: title, lat: lat, lng: lng, address: address, distric: distric, city: city, province: province, default: 'true'
+                title: title, lat: lat, lng: lng, jalan: jalan, kelurahan: kelurahan, kecamatan: kecamatan, kota: kota, provinsi: provinsi, negara: negara, detail: detail, kodepos: kodepos,alamat_map: alamat_map, default: 'true'
             }
             const addressUpdate = await db.userAddress.update(dataUpdate, {where : { id: id, uid: uid }});
             res.status(200).send({
@@ -260,7 +260,7 @@ exports.addressUpdate = async (req, res) => {
             return;
         }else{
             const dataUpdate = {
-                title: title, lat: lat, lng: lng, address: address, distric: distric, city: city, province: province, default: 'false'
+                title: title, lat: lat, lng: lng, jalan: jalan, kelurahan: kelurahan, kecamatan: kecamatan, kota: kota, provinsi: provinsi, negara: negara, detail: detail, kodepos: kodepos,alamat_map: alamat_map, default: 'true'
             }
             const addressUpdate = await db.userAddress.update(dataUpdate, {where : { id: id, uid: uid }});
             res.status(200).send({
