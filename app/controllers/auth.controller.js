@@ -278,3 +278,38 @@ exports.register = async (req, res) => {
     }
 
 }
+
+exports.logout = async (req, res) => {
+    const uid = req.userid;
+
+    try {
+        const logout = await db.users.update({token: ''}, {
+            where: { uid: uid }
+        });
+
+        res.status(200).send({
+            code: 200,
+            success: true,
+            message: 'Berhasil Keluar Aplikasi!',
+            data: {
+                token: ''
+            }
+        });
+        return;
+
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({
+            code: 400,
+            success: false,
+            message: err.message,
+            data: {
+                token: ''
+            }
+        });
+        return;
+    }
+    
+
+
+}

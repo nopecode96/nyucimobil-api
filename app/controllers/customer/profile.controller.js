@@ -195,7 +195,10 @@ exports.addressSave = async (req, res) => {
             res.status(200).send({
                 code: 200,
                 success: true,
-                message: 'Data berhasil disimpan.'
+                message: 'Data berhasil disimpan.',
+                data: {
+                    id: addressSave.id
+                }
             });
             return;
         } else {
@@ -206,7 +209,10 @@ exports.addressSave = async (req, res) => {
             res.status(200).send({
                 code: 200,
                 success: true,
-                message: 'Data berhasil disimpan.'
+                message: 'Data berhasil disimpan.',
+                data: {
+                    id: addressSave.id
+                }
             });
             return;
         }
