@@ -9,6 +9,6 @@ module.exports = app => {
     router.post("/login-otp", auth.apiKeyValidation, controller.loginOTP);
     router.post("/login-otp-verify", auth.apiKeyValidation, controller.loginOtpVerify);
     router.post("/register", auth.apiKeyValidation, controller.register);
-    router.get("/logout", auth.apiKeyValidation, controller.logout);
+    router.get("/logout", auth.apiKeyValidation, auth.tokenValidation, controller.logout);
     app.use('/' + process.env.VERSION + '/auth', router);
   };
