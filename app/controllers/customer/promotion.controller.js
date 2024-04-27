@@ -72,3 +72,42 @@ exports.detail = async (req, res) => {
         return;
     }
 }
+
+exports.codePromo = async (req, res) => {
+    const datenow = new Date(Date.now());
+    const { value } = req.query;
+    try {
+        const getDataVoucherDetail = await db.mstVoucher.findAll({
+            where: {
+                code: value, 
+                start_date: { [Op.lte]: datenow },
+                end_date: { [Op.gte]: datenow },
+            },
+        });
+
+        if(getDataVoucherDetail.length === 0){
+            res.status(200).send({
+                code: 200,
+                success: true,
+                message: 'Data tidak berhasil ditampilkan.',
+                // data: getDataVoucher
+            });
+            return;
+        }
+        res.status(200).send({
+            code: 200,
+            success: true,
+            message: 'Data berhasil ditampilkan.',
+            data: getDataVoucherDetail[0]
+        });
+        return;
+
+    } catch (err) {
+        res.status(400).send({
+            code: 400,
+            success: false,
+            message: err.message
+        });
+        return;
+    }
+}
