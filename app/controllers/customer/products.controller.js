@@ -71,6 +71,8 @@ exports.productDetail = async (req, res) => {
                 model: db.productCategory,
             },
         });
+        console.log(getDetailProduct[0]);
+
         res.status(200).send({
             code: 200,
             success: true,
