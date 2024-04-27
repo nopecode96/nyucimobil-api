@@ -88,8 +88,8 @@ exports.codePromo = async (req, res) => {
         if(getDataVoucherDetail.length === 0){
             res.status(200).send({
                 code: 200,
-                success: true,
-                message: 'Data tidak berhasil ditampilkan.',
+                success: false,
+                message: 'Kode voucher tidak ditemukan atau sudah kadaluarsa!',
                 // data: getDataVoucher
             });
             return;
