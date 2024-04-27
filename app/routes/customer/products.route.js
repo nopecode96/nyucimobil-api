@@ -7,5 +7,6 @@ module.exports = app => {
 
     router.get("/category", auth.apiKeyValidation, auth.tokenValidation, controller.category);
     router.get("/by-cat", auth.apiKeyValidation, auth.tokenValidation, controller.productByCategory);
+    router.get("/detail", auth.apiKeyValidation, auth.tokenValidation, controller.productDetail);
     app.use('/' + process.env.VERSION + '/customer/products/', router);
   };

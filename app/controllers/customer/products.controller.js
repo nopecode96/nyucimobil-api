@@ -60,3 +60,31 @@ exports.productByCategory = async (req, res) => {
         return;
     }
 }
+
+exports.productDetail = async (req, res) => {
+    const { productID } = req.query;
+
+    try {
+        const getDetailProduct = await db.product.findAll({
+            where: {id: productID, published: true},
+            // include: {
+            //     model: db.product,
+            // },
+        });
+        res.status(200).send({
+            code: 200,
+            success: true,
+            message: 'Data berhasil ditampilkan.',
+            data: getDetailProduct[0]
+        });
+        return;
+
+    } catch (err) {
+        res.status(400).send({
+            code: 400,
+            success: false,
+            message: err.message
+        });
+        return;
+    }
+}
