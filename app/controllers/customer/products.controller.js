@@ -67,9 +67,9 @@ exports.productDetail = async (req, res) => {
     try {
         const getDetailProduct = await db.product.findAll({
             where: {id: productID, published: true},
-            // include: {
-            //     model: db.product,
-            // },
+            include: {
+                model: db.productCategory,
+            },
         });
         res.status(200).send({
             code: 200,
