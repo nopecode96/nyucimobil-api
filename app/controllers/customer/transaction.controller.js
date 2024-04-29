@@ -5,7 +5,7 @@ const randomstring = require('randomstring');
 exports.submitTransaction = async (req, res) => {
     const uid = req.userid;
 
-    const { product_name, qty, price, discount_percent, discount, totalpay, promocode, jalan, kecamatan, kota, provinsi, kodepos, latitude, longitude, alamat_map, payment_method, status_transaksi, fid_product, fid_voucher } = req.body;
+    const { product_name, qty, price, discount_percent, discount, totalpay, promocode, jalan, kecamatan, kota, provinsi, kodepos, latitude, longitude, alamat_map, payment_method, fid_product, fid_voucher } = req.body;
 
     if(!jalan){
         res.status(200).send({
@@ -34,11 +34,11 @@ exports.submitTransaction = async (req, res) => {
             provinsi : provinsi, 
             kodepos : kodepos, 
             latitude : latitude, 
-            longitude : latitude, 
+            longitude : longitude, 
             alamat_map: alamat_map, 
             payment_method : payment_method, 
-            status_pembayaran : 'MENUNGGU PEMBAYARAN', 
-            status_transaksi : status_transaksi, 
+            status_pembayaran : 'MENUNGGU PEMBAYARAN',  //MENUNGGU PEMBAYARAN | BATAL | MENUNGGU KONFORMASI | TELAH DIBAYAR
+            status_transaksi : 'TERTUNDA', //TERTUNDA | BATAL | MENEMUKAN MITRA | DALAM PERJALANAN | SELESAI
             fid_product : fid_product, 
             fid_voucher : fid_voucher ,
             uid: uid
