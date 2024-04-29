@@ -136,7 +136,15 @@ exports.getDetail = async (req, res) => {
 
     try {
         var getData = await db.transaction.findAll({
-            where: {order_no : orderNo, uid : uid}
+            where: {order_no : orderNo, uid : uid},
+            include: {
+                model: db.product,
+                attributes: ['title'],
+                include: {
+                    model: db.productCategory,
+                    attributes: ['title'],
+                }
+            }
         });
 
         res.status(200).send({
