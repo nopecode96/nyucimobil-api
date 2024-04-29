@@ -69,8 +69,12 @@ exports.getOrders = async (req, res) => {
         var allData = await db.transaction.findAll({
             where: {uid : uid, status_transaksi : { [Op.ne]: 'SELESAI' }},
             include: {
-                model: db.productCategory,
-                attributes: ['title']
+                model: db.product,
+                attributes: ['title'],
+                include: {
+                    model: db.productCategory,
+                    attributes: ['title'],
+                }
             }
         });
 
@@ -99,8 +103,12 @@ exports.getHistory = async (req, res) => {
         var allData = await db.transaction.findAll({
             where: {uid : uid, status_transaksi : 'SELESAI' },
             include: {
-                model: db.productCategory,
-                attributes: ['title']
+                model: db.product,
+                attributes: ['title'],
+                include: {
+                    model: db.productCategory,
+                    attributes: ['title'],
+                }
             }
         });
 
