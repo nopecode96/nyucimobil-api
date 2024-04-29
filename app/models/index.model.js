@@ -51,6 +51,7 @@ db.productGallery = require("./product_gallery.model")(sequelize, Sequelize);
 db.regDistrics = require("./reg_districts.model")(sequelize, Sequelize);
 db.regRegencies = require("./reg_regencies.model")(sequelize, Sequelize);
 db.regProvincies = require("./reg_provinces.model")(sequelize, Sequelize);
+db.transaction = require("./transaction.model")(sequelize, Sequelize);
 
 
 //===============Associate================
@@ -88,6 +89,13 @@ db.productGallery.belongsTo(db.product, { foreignKey: "fid_product", unique: fal
 
 db.mstUnit.hasMany(db.product, { foreignKey: "fid_unit" });
 db.product.belongsTo(db.mstUnit, { foreignKey: "fid_unit", unique: false });
+
+db.users.hasMany(db.transaction, { foreignKey: "uid" });
+db.transaction.belongsTo(db.users, { foreignKey: "uid", unique: false });
+db.product.hasMany(db.transaction, { foreignKey: "fid_product" });
+db.transaction.belongsTo(db.product, { foreignKey: "fid_product", unique: false });
+db.mstVoucher.hasMany(db.transaction, { foreignKey: "fid_voucher" });
+db.transaction.belongsTo(db.mstVoucher, { foreignKey: "fid_voucher", unique: false });
 
 
 module.exports = db;

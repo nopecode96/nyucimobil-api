@@ -44,7 +44,7 @@ app.locals.db = db;
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
-// db.users.sync(
+// db.transaction.sync(
 //   { force: true, logging: console.log }
 // )
 
@@ -59,6 +59,7 @@ require("./app/routes/auth.route")(app);
 require("./app/routes/customer/profile.route")(app);
 require("./app/routes/customer/promotion.route")(app);
 require("./app/routes/customer/products.route")(app);
+require("./app/routes/customer/transaction.route")(app);
 
 
 app.get("/" + process.env.VERSION + "/", (req, res) => {
