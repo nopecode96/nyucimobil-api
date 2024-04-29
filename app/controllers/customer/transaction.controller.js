@@ -62,12 +62,38 @@ exports.submitTransaction = async (req, res) => {
 
 }
 
-exports.getAll = async (req, res) => {
+exports.getOrders = async (req, res) => {
     const uid = req.userid;
 
     try {
         var allData = await db.transaction.findAll({
-            where: {uid : uid}
+            where: {uid : uid, status_transaksi : { [Op.ne]: 'SELESAI' }}
+        });
+
+        res.status(200).send({
+            code: 200,
+            success: true,
+            message: 'Data berhasil ditampilkan',
+            data: allData
+        });
+        return;
+    } catch (err) {
+        res.status(400).send({
+            code: 400,
+            success: false,
+            message: err.message,
+        });
+        return;
+    }
+    
+}
+
+exports.getHistory = async (req, res) => {
+    const uid = req.userid;
+
+    try {
+        var allData = await db.transaction.findAll({
+            where: {uid : uid, status_transaksi : 'SELESAI' }
         });
 
         res.status(200).send({
@@ -94,7 +120,7 @@ exports.getDetail = async (req, res) => {
 
     try {
         var getData = await db.transaction.findAll({
-            where: {order_no : orderNo, uid:uid}
+            where: {order_no : orderNo, uid : uid}
         });
 
         res.status(200).send({
