@@ -67,7 +67,11 @@ exports.getOrders = async (req, res) => {
 
     try {
         var allData = await db.transaction.findAll({
-            where: {uid : uid, status_transaksi : { [Op.ne]: 'SELESAI' }}
+            where: {uid : uid, status_transaksi : { [Op.ne]: 'SELESAI' }},
+            include: {
+                model: db.productCategory,
+                attributes: ['title']
+            }
         });
 
         res.status(200).send({
@@ -93,7 +97,11 @@ exports.getHistory = async (req, res) => {
 
     try {
         var allData = await db.transaction.findAll({
-            where: {uid : uid, status_transaksi : 'SELESAI' }
+            where: {uid : uid, status_transaksi : 'SELESAI' },
+            include: {
+                model: db.productCategory,
+                attributes: ['title']
+            }
         });
 
         res.status(200).send({
