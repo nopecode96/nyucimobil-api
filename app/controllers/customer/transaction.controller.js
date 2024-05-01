@@ -22,6 +22,7 @@ exports.submitTransaction = async (req, res) => {
     }
 
     const orderNo = randomstring.generate(10);
+    console.log('1');
 
     try {
         const save = await db.transaction.create({
@@ -48,10 +49,12 @@ exports.submitTransaction = async (req, res) => {
             fid_voucher : fid_voucher ,
             uid: uid
         });
+        console.log('2');
 
         const customer = await db.users.findAll({
             where: {uid: save.uid}
         });
+        console.log('3');
 
         const date = Date(save.createdAt);
 
@@ -78,8 +81,12 @@ exports.submitTransaction = async (req, res) => {
             })
         };
 
+        console.log('4');
+
         try {
             const sendNotif = await axios(config);
+            console.log('5');
+
             // console.log(sendNotif);
             if(sendNotif['status']) {
                 res.status(200).send({
@@ -91,6 +98,8 @@ exports.submitTransaction = async (req, res) => {
                 });
                 return;
             }else{
+                console.log('10');
+
                 res.status(200).send({
                     code: 200,
                     success: false,
@@ -102,6 +111,8 @@ exports.submitTransaction = async (req, res) => {
             }
             
         } catch (err) {
+            console.log('11');
+
             res.status(400).send({
                 code: 400,
                 success: false,
@@ -111,6 +122,8 @@ exports.submitTransaction = async (req, res) => {
         }
 
     } catch (err) {
+        console.log('12');
+
         res.status(400).send({
             code: 400,
             success: false,
