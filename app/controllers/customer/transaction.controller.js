@@ -55,25 +55,14 @@ exports.submitTransaction = async (req, res) => {
         };
 
         try {
-            const sendOtp = await axios(config);
-            console.log(sendOtp);
-            if(sendOtp['status'] === false) {
-                res.status(200).send({
-                    code: 200,
-                    success: false,
-                    message: sendOtp['detail']
-                });
-                return;
-            }
-            const otpSave = await db.otp.create({
-                phone: phone.trim(),
-                otp: otp
-            });
-            if(otpSave){
+            // const sendNotif = await axios(config);
+            // console.log(sendNotif);
+            if(sendNotif['status'] === false) {
                 res.status(200).send({
                     code: 200,
                     success: true,
                     message: 'Data transaksi berhasil disimpan',
+                    message_notif: sendNotif['detail'],
                     data: save
                 });
                 return;
