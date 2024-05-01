@@ -46,8 +46,7 @@ exports.submitTransaction = async (req, res) => {
             payment_method : payment_method, 
             status_pembayaran : 'MENUNGGU PEMBAYARAN',  //MENUNGGU PEMBAYARAN | BATAL | MENUNGGU KONFORMASI | TELAH DIBAYAR
             status_transaksi : 'MENUNGGU PEMBAYARAN', //MENUNGGU PEMBAYARAN | BATAL | MENEMUKAN MITRA | DALAM PERJALANAN | SELESAI
-            fid_product : fid_product, 
-            fid_voucher : fid_voucher ,
+            fid_product : fid_product,
             uid: uid
         });
         console.log('2');
