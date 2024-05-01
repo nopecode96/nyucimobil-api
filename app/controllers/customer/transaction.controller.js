@@ -23,12 +23,13 @@ exports.submitTransaction = async (req, res) => {
 
     const orderNo = randomstring.generate(10);
     console.log('1');
+    console.log(req.body);
 
     try {
         const save = await db.transaction.create({
             order_no: orderNo.toUpperCase(),
             product_name : product_name,
-            qty : 1, 
+            qty : '1', 
             price : price, 
             discount_percent : discount_percent, 
             discount : discount, 
