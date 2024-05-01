@@ -1,11 +1,16 @@
 const { Sequelize, Op } = require('sequelize');
 const db = require("../../models/index.model");
 const randomstring = require('randomstring');
+const qs = require('qs');
+const dotenv = require('dotenv');
+const axios = require("axios");
+dotenv.config();
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 exports.submitTransaction = async (req, res) => {
     const uid = req.userid;
 
-    const { product_name, qty, price, discount_percent, discount, totalpay, promocode, jalan, kecamatan, kota, provinsi, kodepos, latitude, longitude, alamat_map, payment_method, fid_product, fid_voucher } = req.body;
+    const { product_name, price, discount_percent, discount, totalpay, promocode, jalan, kecamatan, kota, provinsi, kodepos, latitude, longitude, alamat_map, payment_method, fid_product, fid_voucher } = req.body;
 
     if(!jalan){
         res.status(200).send({
@@ -22,7 +27,7 @@ exports.submitTransaction = async (req, res) => {
         const save = await db.transaction.create({
             order_no: orderNo.toUpperCase(),
             product_name : product_name,
-            qty : qty, 
+            qty : 1, 
             price : price, 
             discount_percent : discount_percent, 
             discount : discount, 
@@ -44,24 +49,52 @@ exports.submitTransaction = async (req, res) => {
             uid: uid
         });
 
+        const customer = await db.users.findAll({
+            where: {uid: save.uid}
+        });
+
+        const date = Date(save.createdAt);
+
+        const ms1 = 'Order Masuk dari CARKLIN\n'+date+'\n\n';
+        const ms2 = 'Order No. : '+ save.order_no + '\n';
+        const ms3 = 'Layanan : '+ save.product_name + '\n';
+        const ms4 = 'Harga : '+ save.price + '\n';
+        const ms5 = 'Potongan Harga : '+ save.discount + '\n';
+        const ms6 = 'Total Pembayaran : '+ save.totalpay + '\n\n';
+        const ms7 = 'Status : '+ save.status_transaksi + '\n\n';
+        const ms8 = 'Nama Pelanggan : '+ customer[0]['name'] + '\n';
+        const ms9 = 'Nomor Whatsapp : '+ customer[0]['phone'] + '\n';
+        const ms10 = 'Alamat :\n';
+        const ms11 = save.jalan + ', ' + save.kecamatan + ', ' + save.kota + ', ' + save.provinsi + '\n';
+        const ms12 = 'https://www.google.com/maps/@'+save.latitude+','+save.longitude+',18.81z?entry=ttu\n';
+
         var config = {
             method: 'POST',
             url: process.env.FONNTE_URL,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': process.env.FONNTE_TOKEN },
             data: qs.stringify({
                 'target': process.env.OP_WA,
-                'message': 'Mendapatkan Order Baru di CARKLIN.',
+                'message': ms1+ms2+ms3+ms4+ms5+ms6+ms7+ms8+ms9+ms10+ms11+ms12,
             })
         };
 
         try {
-            // const sendNotif = await axios(config);
+            const sendNotif = await axios(config);
             // console.log(sendNotif);
-            if(sendNotif['status'] === false) {
+            if(sendNotif['status']) {
                 res.status(200).send({
                     code: 200,
                     success: true,
                     message: 'Data transaksi berhasil disimpan',
+                    message_notif: sendNotif['detail'],
+                    data: save
+                });
+                return;
+            }else{
+                res.status(200).send({
+                    code: 200,
+                    success: false,
+                    message: 'Data gagal mengirim pesan',
                     message_notif: sendNotif['detail'],
                     data: save
                 });
@@ -77,7 +110,6 @@ exports.submitTransaction = async (req, res) => {
             return;
         }
 
-        
     } catch (err) {
         res.status(400).send({
             code: 400,
