@@ -124,6 +124,7 @@ exports.submitTransaction = async (req, res) => {
 
     } catch (err) {
         console.log('12');
+        console.log(err)
 
         res.status(400).send({
             code: 400,
