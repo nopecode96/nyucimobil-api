@@ -38,19 +38,57 @@ exports.submitTransaction = async (req, res) => {
             alamat_map: alamat_map, 
             payment_method : payment_method, 
             status_pembayaran : 'MENUNGGU PEMBAYARAN',  //MENUNGGU PEMBAYARAN | BATAL | MENUNGGU KONFORMASI | TELAH DIBAYAR
-            status_transaksi : 'TERTUNDA', //TERTUNDA | BATAL | MENEMUKAN MITRA | DALAM PERJALANAN | SELESAI
+            status_transaksi : 'MENUNGGU PEMBAYARAN', //MENUNGGU PEMBAYARAN | BATAL | MENEMUKAN MITRA | DALAM PERJALANAN | SELESAI
             fid_product : fid_product, 
             fid_voucher : fid_voucher ,
             uid: uid
         });
 
-        res.status(200).send({
-            code: 200,
-            success: true,
-            message: 'Data transaksi berhasil disimpan',
-            data: save
-        });
-        return;
+        var config = {
+            method: 'POST',
+            url: process.env.FONNTE_URL,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': process.env.FONNTE_TOKEN },
+            data: qs.stringify({
+                'target': process.env.OP_WA,
+                'message': 'Mendapatkan Order Baru di CARKLIN.',
+            })
+        };
+
+        try {
+            const sendOtp = await axios(config);
+            console.log(sendOtp);
+            if(sendOtp['status'] === false) {
+                res.status(200).send({
+                    code: 200,
+                    success: false,
+                    message: sendOtp['detail']
+                });
+                return;
+            }
+            const otpSave = await db.otp.create({
+                phone: phone.trim(),
+                otp: otp
+            });
+            if(otpSave){
+                res.status(200).send({
+                    code: 200,
+                    success: true,
+                    message: 'Data transaksi berhasil disimpan',
+                    data: save
+                });
+                return;
+            }
+            
+        } catch (err) {
+            res.status(400).send({
+                code: 400,
+                success: false,
+                message: err.message,
+            });
+            return;
+        }
+
+        
     } catch (err) {
         res.status(400).send({
             code: 400,
