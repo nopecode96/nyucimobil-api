@@ -61,9 +61,9 @@ exports.submitTransaction = async (req, res) => {
         const ms1 = 'Order Masuk dari CARKLIN\n'+date+'\n\n';
         const ms2 = 'Order No. : '+ save.order_no + '\n';
         const ms3 = 'Layanan : '+ save.product_name + '\n';
-        const ms4 = 'Harga : '+ save.price + '\n';
-        const ms5 = 'Potongan Harga : '+ save.discount + '\n';
-        const ms6 = 'Total Pembayaran : '+ save.totalpay + '\n\n';
+        // const ms4 = 'Harga : '+ save.price + '\n';
+        // const ms5 = 'Potongan Harga : '+ save.discount + '\n';
+        // const ms6 = 'Total Pembayaran : '+ save.totalpay + '\n\n';
         const ms7 = 'Status : '+ save.status_transaksi + '\n\n';
         const ms8 = 'Nama Pelanggan : '+ customer[0]['name'] + '\n';
         const ms9 = 'Nomor Whatsapp : '+ customer[0]['phone'] + '\n';
@@ -148,7 +148,10 @@ exports.getOrders = async (req, res) => {
                     model: db.productCategory,
                     attributes: ['title'],
                 }
-            }
+            },
+            order: [
+                [['id', 'DESC']],
+            ],
         });
 
         res.status(200).send({
@@ -182,7 +185,10 @@ exports.getHistory = async (req, res) => {
                     model: db.productCategory,
                     attributes: ['title'],
                 }
-            }
+            },
+            order: [
+                [['id', 'DESC']],
+            ],
         });
 
         res.status(200).send({
