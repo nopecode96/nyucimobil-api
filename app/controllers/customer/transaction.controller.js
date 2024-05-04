@@ -135,12 +135,14 @@ exports.submitTransaction = async (req, res) => {
 
 }
 
-exports.getOrders = async (req, res) => {
+exports.getOrderOneTime = async (req, res) => {
     const uid = req.userid;
+    const { status } = req.query;
 
     try {
         var allData = await db.transaction.findAll({
-            where: {uid : uid, status_transaksi : { [Op.ne]: 'SELESAI' }},
+            // where: {uid : uid, status_transaksi : { [Op.ne]: 'SELESAI' }},
+            where: {uid : uid, status_transaksi : status },
             include: {
                 model: db.product,
                 attributes: ['title'],
@@ -172,12 +174,14 @@ exports.getOrders = async (req, res) => {
     
 }
 
-exports.getHistory = async (req, res) => {
+exports.getSubscribe = async (req, res) => {
     const uid = req.userid;
+    const { status } = req.query;
 
     try {
         var allData = await db.transaction.findAll({
-            where: {uid : uid, status_transaksi : 'SELESAI' },
+            // where: {uid : uid, status_transaksi : 'SELESAI' },
+            where: {uid : uid, status_transaksi : status },
             include: {
                 model: db.product,
                 attributes: ['title'],
