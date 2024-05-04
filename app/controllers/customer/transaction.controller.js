@@ -77,7 +77,7 @@ exports.submitTransaction = async (req, res) => {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': process.env.FONNTE_TOKEN },
             data: qs.stringify({
                 'target': process.env.OP_WA,
-                'message': ms1+ms2+ms3+ms4+ms5+ms6+ms7+ms8+ms9+ms10+ms11+ms12,
+                'message': ms1+ms2+ms3+ms7+ms8+ms9+ms10+ms11+ms12,
             })
         };
 
