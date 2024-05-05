@@ -189,7 +189,7 @@ exports.getSubscribe = async (req, res) => {
                 include: {
                     model: db.productCategory,
                     where: {id: 2},
-                    attributes: ['2','title'],
+                    attributes: ['id','title'],
                 }
             },
             order: [
