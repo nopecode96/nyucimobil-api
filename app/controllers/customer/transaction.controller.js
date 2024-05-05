@@ -148,7 +148,8 @@ exports.getOrderOneTime = async (req, res) => {
                 attributes: ['title'],
                 include: {
                     model: db.productCategory,
-                    attributes: ['title'],
+                    where: {id: 1},
+                    attributes: ['id','title'],
                 }
             },
             order: [
@@ -187,7 +188,8 @@ exports.getSubscribe = async (req, res) => {
                 attributes: ['title'],
                 include: {
                     model: db.productCategory,
-                    attributes: ['title'],
+                    where: {id: 2},
+                    attributes: ['2','title'],
                 }
             },
             order: [
