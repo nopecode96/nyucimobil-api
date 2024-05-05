@@ -137,18 +137,18 @@ exports.submitTransaction = async (req, res) => {
 
 exports.getOrderOneTime = async (req, res) => {
     const uid = req.userid;
+    // const uid = '7d0445df-0ab0-4abc-aee5-a43f506d492c';
     const { status } = req.query;
 
     try {
         var allData = await db.transaction.findAll({
             // where: {uid : uid, status_transaksi : { [Op.ne]: 'SELESAI' }},
-            where: {uid : uid, status_transaksi : status },
+            where: {'$product.product_category.id$': 1, status_transaksi: status, uid:uid },
             include: {
                 model: db.product,
                 attributes: ['title'],
                 include: {
                     model: db.productCategory,
-                    where: {id: 1},
                     attributes: ['id','title'],
                 }
             },
@@ -176,19 +176,19 @@ exports.getOrderOneTime = async (req, res) => {
 }
 
 exports.getSubscribe = async (req, res) => {
-    const uid = req.userid;
+    // const uid = req.userid;
+    const uid = '7d0445df-0ab0-4abc-aee5-a43f506d492c';
     const { status } = req.query;
 
     try {
         var allData = await db.transaction.findAll({
             // where: {uid : uid, status_transaksi : 'SELESAI' },
-            where: {uid : uid, status_transaksi : status },
+            where: {'$product.product_category.id$': 2, status_transaksi: status, uid:uid },
             include: {
                 model: db.product,
                 attributes: ['title'],
                 include: {
                     model: db.productCategory,
-                    where: {id: 2},
                     attributes: ['id','title'],
                 }
             },
