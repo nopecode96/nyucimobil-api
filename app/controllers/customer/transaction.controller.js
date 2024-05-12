@@ -10,7 +10,7 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 exports.submitTransaction = async (req, res) => {
     const uid = req.userid;
 
-    const { product_name, price, discount_percent, discount, totalpay, promocode, jalan, kecamatan, kota, provinsi, kodepos, latitude, longitude, alamat_map, payment_method, fid_product, fid_voucher } = req.body;
+    const { product_name, price, discount_percent, discount, totalpay, promocode, jalan, kecamatan, kota, provinsi, kodepos, latitude, longitude, alamat_map, payment_method, fid_product, fid_voucher,qty } = req.body;
 
     if(!jalan){
         res.status(200).send({
@@ -29,7 +29,7 @@ exports.submitTransaction = async (req, res) => {
         const save = await db.transaction.create({
             order_no: orderNo.toUpperCase(),
             product_name : product_name,
-            qty : '1', 
+            qty : qty, 
             price : price, 
             discount_percent : discount_percent, 
             discount : discount, 
