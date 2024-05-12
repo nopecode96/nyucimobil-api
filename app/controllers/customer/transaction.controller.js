@@ -176,8 +176,8 @@ exports.getOrderOneTime = async (req, res) => {
 }
 
 exports.getSubscribe = async (req, res) => {
-    // const uid = req.userid;
-    const uid = '7d0445df-0ab0-4abc-aee5-a43f506d492c';
+    const uid = req.userid;     
+    // const uid = '7d0445df-0ab0-4abc-aee5-a43f506d492c';
     const { status } = req.query;
 
     try {
